@@ -1,4 +1,4 @@
-# DevOps Assignment - LDC
+# DevOps Assignment 
 
 **Student:** Pratham Darji 
 
