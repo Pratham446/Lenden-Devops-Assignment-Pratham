@@ -24,32 +24,38 @@ pipeline {
         }
 
         // ─────────────────────────────────────────
-   stage('Infrastructure Security Scan') {
-    steps {
-        script {
-            sh '''
-                # Run Trivy and capture output
-                docker run --rm -v $WORKSPACE:/workspace aquasec/trivy:latest \
-                    config --severity HIGH,CRITICAL --format table /workspace/terraform > trivy-report.txt
-                cat trivy-report.txt
-                # Check if any HIGH or CRITICAL issues found (exit code 1 if any)
-                if grep -qE "HIGH|CRITICAL" trivy-report.txt; then
-                    echo "❌ Security scan failed: HIGH/CRITICAL vulnerabilities detected!"
-                    exit 1
-                else
-                    echo "✅ No HIGH/CRITICAL vulnerabilities found."
-                fi
-            '''
-        }
-    }
-    post {
-        always {
-            archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
-        }
-    }
-}
+        // STAGE 2: Infrastructure Security Scan (Trivy)
         // ─────────────────────────────────────────
-        // STAGE 3: Terraform Plan (WITH AWS CREDS)
+        stage('Infrastructure Security Scan') {
+            steps {
+                script {
+                    sh '''
+                        # Run Trivy via Docker and save report
+                        docker run --rm -v $WORKSPACE:/workspace aquasec/trivy:latest \
+                            config --severity HIGH,CRITICAL --format table \
+                            /workspace/terraform > trivy-report.txt
+
+                        cat trivy-report.txt
+
+                        # Fail pipeline if HIGH or CRITICAL found
+                        if grep -qE "HIGH|CRITICAL" trivy-report.txt; then
+                            echo "❌ Security scan failed: HIGH/CRITICAL vulnerabilities detected!"
+                            exit 1
+                        else
+                            echo "✅ No HIGH/CRITICAL vulnerabilities found."
+                        fi
+                    '''
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
+                }
+            }
+        }
+
+        // ─────────────────────────────────────────
+        // STAGE 3: Terraform Plan (with AWS credentials)
         // ─────────────────────────────────────────
         stage('Terraform Plan') {
             steps {
@@ -58,13 +64,10 @@ pipeline {
                 echo '============================================'
 
                 dir('terraform') {
-
-                    // 🔥 THIS IS WHERE withCredentials IS USED
                     withCredentials([[
                         $class: 'AmazonWebServicesCredentialsBinding',
                         credentialsId: 'aws-creds'
                     ]]) {
-
                         sh '''
                             export AWS_DEFAULT_REGION=ap-south-1
                             terraform init -input=false
