@@ -24,35 +24,33 @@ pipeline {
         }
 
         // ─────────────────────────────────────────
-        // STAGE 2: Infrastructure Security Scan (Trivy)
-        // ─────────────────────────────────────────
-        stage('Infrastructure Security Scan') {
-            steps {
-                script {
-                    sh '''
-                        # Run Trivy via Docker and save report
-                        docker run --rm -v $WORKSPACE:/workspace aquasec/trivy:latest \
-                            config --severity HIGH,CRITICAL --format table \
-                            /workspace/terraform > trivy-report.txt
+stage('Infrastructure Security Scan') {
+    steps {
+        script {
+            sh '''
+                set -e  # Exit script on any error
+                echo "Running Trivy scan..."
+                docker run --rm -v $WORKSPACE:/workspace aquasec/trivy:latest \
+                    config --severity HIGH,CRITICAL --format table \
+                    /workspace/terraform > trivy-report.txt || { echo "❌ Trivy command failed"; exit 1; }
 
-                        cat trivy-report.txt
+                cat trivy-report.txt
 
-                        # Fail pipeline if HIGH or CRITICAL found
-                        if grep -qE "HIGH|CRITICAL" trivy-report.txt; then
-                            echo "❌ Security scan failed: HIGH/CRITICAL vulnerabilities detected!"
-                            exit 1
-                        else
-                            echo "✅ No HIGH/CRITICAL vulnerabilities found."
-                        fi
-                    '''
-                }
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
-                }
-            }
+                if grep -qE "HIGH|CRITICAL" trivy-report.txt; then
+                    echo "❌ Security scan failed: HIGH/CRITICAL vulnerabilities detected!"
+                    exit 1
+                else
+                    echo "✅ No HIGH/CRITICAL vulnerabilities found."
+                fi
+            '''
         }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
+        }
+    }
+}
 
         // ─────────────────────────────────────────
         // STAGE 3: Terraform Plan (with AWS credentials)
