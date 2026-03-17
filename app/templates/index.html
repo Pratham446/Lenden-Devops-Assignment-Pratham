@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pratham Darji · DevOps & Cloud Engineer</title>
+    <!-- Google Fonts: Inter + Fira Code for terminal style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free) for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0e12;
+            font-family: 'Inter', sans-serif;
+            color: #e4eaf0;
+            line-height: 1.5;
+        }
+
+        /* terminal / code accents */
+        .terminal-text {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 2rem;
+        }
+
+        /* header / navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0 2.2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 1px solid #25333d;
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #77d9c6, #4f9da6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            font-weight: 500;
+        }
+
+        .nav-links a {
+            color: #b6cdda;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #77d9c6;
+        }
+
+        .availability {
+            background: #1a333c;
+            border-radius: 30px;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid #2f5968;
+            color: #b3f0e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .availability i {
+            color: #3fe0b6;
+            font-size: 0.7rem;
+        }
+
+        /* hero */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3.5rem 0 4rem;
+        }
+
+        .hero-left {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .hero-right {
+            flex: 1;
+            min-width: 260px;
+            background: #151f26;
+            border-radius: 28px;
+            padding: 1.8rem 1.5rem;
+            border: 1px solid #2d424d;
+            box-shadow: 0 15px 30px -10px #00000055;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .hero-name {
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            background: linear-gradient(145deg, #fff, #b2dde2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #a0c2d0;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            color: #b6cfdc;
+            max-width: 550px;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background: #2d6b79;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.9rem 2.2rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            background: linear-gradient(135deg, #2f7f8f, #1f5f6b);
+        }
+
+        .btn-primary:hover {
+            background: #378f9e;
+            box-shadow: 0 5px 15px #154e57;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #3f7f8f;
+            color: #c6e9f0;
+            padding: 0.85rem 2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-outline i {
+            font-size: 1.1rem;
+        }
+
+        .btn-outline:hover {
+            background: #1d404b;
+            border-color: #77d9c6;
+            color: white;
+        }
+
+        .terminal-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            color: #b1dfd6;
+            font-size: 0.9rem;
+            border-bottom: 1px dashed #2e535e;
+            padding-bottom: 12px;
+        }
+
+        .prompt {
+            color: #8ed3c5;
+            font-weight: 600;
+        }
+
+        .cmd-output {
+            color: #b4cedf;
+            margin-left: 1.2rem;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        .stats-mini {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0 0.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #77d9c6;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #8aabb8;
+            letter-spacing: 0.3px;
+        }
+
+        /* section heading style */
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 3.5rem 0 2rem;
+        }
+
+        .section-head .code-badge {
+            font-family: 'Fira Code', monospace;
+            background: #1c3a42;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            color: #a6f0e3;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .section-head h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #ecf9ff;
+            letter-spacing: -0.5px;
+        }
+
+        /* skills grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-card {
+            background: #121e24;
+            border: 1px solid #2e4b55;
+            border-radius: 22px;
+            padding: 1.8rem 1.5rem;
+            transition: 0.2s;
+        }
+
+        .skill-card:hover {
+            border-color: #5299aa;
+            background: #162c34;
+        }
+
+        .skill-icon {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+            color: #d7ecf2;
+        }
+
+        .skill-desc {
+            font-size: 0.85rem;
+            color: #afcbd7;
+            margin-bottom: 1rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: #1b3c44;
+            color: #c2ecf0;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* projects grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.8rem;
+        }
+
+        .project-card {
+            background: #101c22;
+            border: 1px solid #2f505c;
+            border-radius: 24px;
+            padding: 1.8rem;
+            transition: 0.2s;
+        }
+
+        .project-card:hover {
+            border-color: #4895aa;
+            background: #132830;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .project-num {
+            font-family: 'Fira Code', monospace;
+            color: #529eaa;
+            font-size: 0.8rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #f0fbff;
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            color: #b5d3e0;
+            margin-bottom: 1.2rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 1.4rem;
+        }
+
+        .tech-tag {
+            background: #1f414b;
+            color: #ade1ec;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+
+        .project-link {
+            color: #88d9d0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .project-link i {
+            font-size: 0.8rem;
+        }
+
+        /* experience / timeline */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .exp-item {
+            display: flex;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+            border-left: 2px solid #266d7a;
+            padding-left: 1.8rem;
+            position: relative;
+        }
+
+        .exp-year {
+            min-width: 130px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            color: #6dc4bf;
+            font-weight: 600;
+        }
+
+        .exp-content {
+            flex: 1;
+        }
+
+        .exp-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #e3f0f5;
+        }
+
+        .exp-sub {
+            color: #79b8c0;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .exp-desc {
+            color: #bfdbe5;
+            font-size: 0.9rem;
+            max-width: 650px;
+        }
+
+        /* contact section */
+        .contact-section {
+            background: #0e1b21;
+            border-radius: 40px;
+            padding: 2.5rem;
+            border: 1px solid #31606b;
+            margin: 3rem 0 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            justify-content: space-between;
+        }
+
+        .contact-left h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .contact-left p {
+            color: #c6dde8;
+            margin-bottom: 2rem;
+            max-width: 400px;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.2rem;
+        }
+
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            background: #1b414d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #7ae2d4;
+        }
+
+        .contact-detail {
+            font-size: 0.95rem;
+            color: #cbe2ed;
+        }
+
+        .contact-right {
+            min-width: 280px;
+            background: #0f262f;
+            border-radius: 30px;
+            padding: 2rem;
+            border: 1px solid #31707e;
+            flex: 1;
+        }
+
+        .contact-right h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .availability-badge {
+            background: #17444e;
+            color: #b1f0e0;
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            display: inline-block;
+            margin: 1rem 0 1.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #479baa;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2.5rem 0 1rem;
+            border-top: 1px solid #2d4e58;
+            color: #a0c2cf;
+            font-size: 0.85rem;
+        }
+
+        .footer i {
+            color: #dd6b8b;
+        }
+
+        /* responsive */
+        @media (max-width: 700px) {
+            .hero-name { font-size: 2.5rem; }
+            .nav-links { gap: 1.2rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- navbar -->
+        <div class="navbar">
+            <div class="logo">pratham.dev ~ $</div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#experience">Experience</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="availability"><i class="fas fa-circle"></i> Available for opportunities</div>
+        </div>
+
+        <!-- hero -->
+        <div class="hero">
+            <div class="hero-left">
+                <div class="hero-name">Pratham Darji</div>
+                <div class="hero-tagline">// DevOps & Cloud Engineer</div>
+                <p class="hero-desc">Building automated pipelines, scalable cloud infrastructure, and containerized deployments. Passionate about bridging the gap between development and operations through CI/CD, IaC, and observability.</p>
+                <div class="cta-group">
+                    <a href="#contact" class="btn-primary"><i class="far fa-paper-plane"></i> Get In Touch</a>
+                    <a href="https://github.com/Pratham446" target="_blank" class="btn-outline"><i class="fab fa-github"></i> GitHub ↗</a>
+                </div>
+                <!-- mini stats -->
+                <div class="stats-mini">
+                    <div class="stat-item"><span class="stat-number">1+</span><span class="stat-label">Years Experience</span></div>
+                    <div class="stat-item"><span class="stat-number">6+</span><span class="stat-label">Technologies</span></div>
+                    <div class="stat-item"><span class="stat-number">∞</span><span class="stat-label">Deployments</span></div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="terminal-line"><span class="prompt">pratham@devops ~ $</span> kubectl get pods --all-namespaces</div>
+                <div class="cmd-output">✓ 12/12 pods running</div>
+                <div class="terminal-line"><span class="prompt">❯</span> terraform apply --auto-approve</div>
+                <div class="cmd-output">✓ 8 resources added</div>
+                <div class="terminal-line"><span class="prompt">❯</span> docker build -t app:latest .</div>
+                <div class="cmd-output">✓ Successfully built a3f7c2</div>
+                <div class="terminal-line"><span class="prompt">❯</span> git push origin main</div>
+                <div class="cmd-output">⚡ CI/CD pipeline triggered... <br>✓ Deployed to production</div>
+            </div>
+        </div>
+
+        <!-- 01 — What I Work With / Technical Skills -->
+        <div id="skills" class="section-head">
+            <span class="code-badge">// 01 —</span>
+            <h2>What I Work With</h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-card"><div class="skill-icon">☁️</div><div class="skill-title">Cloud — AWS</div><div class="skill-desc">Deploying and managing cloud infrastructure on AWS with a focus on scalability, security, and cost-efficiency.</div><div class="skill-tags"><span class="skill-tag">EC2</span><span class="skill-tag">S3</span><span class="skill-tag">IAM</span><span class="skill-tag">VPC</span><span class="skill-tag">RDS</span><span class="skill-tag">CloudWatch</span></div></div>
+            <div class="skill-card"><div class="skill-icon">🐳</div><div class="skill-title">Docker & Kubernetes</div><div class="skill-desc">Containerizing applications and orchestrating workloads at scale using Kubernetes clusters and Helm charts.</div><div class="skill-tags"><span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">Helm</span><span class="skill-tag">Docker Compose</span></div></div>
+            <div class="skill-card"><div class="skill-icon">⚙️</div><div class="skill-title">CI/CD Pipelines</div><div class="skill-desc">Designing and automating end-to-end pipelines that build, test, and deploy code with every commit.</div><div class="skill-tags"><span class="skill-tag">Jenkins</span><span class="skill-tag">GitLab CI</span><span class="skill-tag">GitHub Actions</span></div></div>
+            <div class="skill-card"><div class="skill-icon">🏗️</div><div class="skill-title">Infrastructure as Code</div><div class="skill-desc">Provisioning and managing infrastructure programmatically, ensuring reproducibility and version control.</div><div class="skill-tags"><span class="skill-tag">Terraform</span><span class="skill-tag">Ansible</span><span class="skill-tag">CloudFormation</span></div></div>
+            <div class="skill-card"><div class="skill-icon">🐧</div><div class="skill-title">Linux & Bash Scripting</div><div class="skill-desc">Comfortable in Linux environments, writing shell scripts to automate repetitive tasks and system operations.</div><div class="skill-tags"><span class="skill-tag">Ubuntu</span><span class="skill-tag">Bash</span><span class="skill-tag">Shell</span><span class="skill-tag">Cron</span></div></div>
+            <div class="skill-card"><div class="skill-icon">📊</div><div class="skill-title">Monitoring & Observability</div><div class="skill-desc">Setting up full-stack observability with metrics, dashboards, and alerting to ensure system reliability.</div><div class="skill-tags"><span class="skill-tag">Prometheus</span><span class="skill-tag">Grafana</span><span class="skill-tag">Alertmanager</span></div></div>
+        </div>
+
+        <!-- 02 — Projects -->
+        <div id="projects" class="section-head">
+            <span class="code-badge">// 02 —</span>
+            <h2>What I've Built</h2>
+        </div>
+        <div class="projects-grid">
+            <div class="project-card"><div class="project-header"><span class="project-num">01</span></div><div class="project-title">Dockerized Microservices App</div><div class="project-desc">Containerized a multi-service application using Docker and Docker Compose. Implemented a bridge network for inter-service communication, volumes for persistence, and Nginx as a reverse proxy.</div><div class="project-tech"><span class="tech-tag">Docker</span><span class="tech-tag">Nginx</span><span class="tech-tag">Docker Compose</span></div><a href="#" class="project-link">View on GitHub →</a></div>
+            <div class="project-card"><div class="project-header"><span class="project-num">02</span></div><div class="project-title">CI/CD Pipeline with GitHub Actions</div><div class="project-desc">Built an automated pipeline that runs lint checks, unit tests, builds a Docker image, pushes to DockerHub, and deploys to an EC2 instance on every push to the main branch.</div><div class="project-tech"><span class="tech-tag">GitHub Actions</span><span class="tech-tag">Docker</span><span class="tech-tag">AWS EC2</span></div><a href="#" class="project-link">View on GitHub →</a></div>
+            <div class="project-card"><div class="project-header"><span class="project-num">03</span></div><div class="project-title">AWS Infrastructure with Terraform</div><div class="project-desc">Provisioned a full AWS environment — VPC, subnets, EC2, RDS, and security groups — using Terraform modules. State managed remotely via S3 backend with DynamoDB locking.</div><div class="project-tech"><span class="tech-tag">Terraform</span><span class="tech-tag">AWS</span><span class="tech-tag">S3</span><span class="tech-tag">RDS</span></div><a href="#" class="project-link">View on GitHub →</a></div>
+            <div class="project-card"><div class="project-header"><span class="project-num">04</span></div><div class="project-title">Kubernetes Monitoring Stack</div><div class="project-desc">Deployed Prometheus and Grafana on a Kubernetes cluster using Helm. Created custom dashboards for CPU, memory, pod health, and set up Alertmanager for Slack notifications.</div><div class="project-tech"><span class="tech-tag">Kubernetes</span><span class="tech-tag">Prometheus</span><span class="tech-tag">Grafana</span><span class="tech-tag">Helm</span></div><a href="#" class="project-link">View on GitHub →</a></div>
+        </div>
+
+        <!-- 03 — Experience & Education -->
+        <div id="experience" class="section-head">
+            <span class="code-badge">// 03 —</span>
+            <h2>Journey So Far</h2>
+        </div>
+        <div class="timeline">
+            <div class="exp-item"><div class="exp-year">2024 — Present</div><div class="exp-content"><div class="exp-title">Junior DevOps Engineer</div><div class="exp-sub">Open to Opportunities · Remote/On-site</div><div class="exp-desc">Actively building hands-on experience through personal projects, open-source contributions, and self-driven learning in cloud and DevOps tooling. Seeking first full-time role to apply CI/CD, containerization, and IaC skills.</div></div></div>
+            <div class="exp-item"><div class="exp-year">2023 — 2024</div><div class="exp-content"><div class="exp-title">DevOps Learner & Project Builder</div><div class="exp-sub">Self-Directed Learning</div><div class="exp-desc">Completed courses in AWS, Docker, Kubernetes, Terraform, and Linux. Deployed personal projects on AWS, automated pipelines with GitHub Actions, and set up monitoring stacks independently.</div></div></div>
+            <div class="exp-item"><div class="exp-year">2021 — 2024</div><div class="exp-content"><div class="exp-title">Bachelor of Engineering / Technology</div><div class="exp-sub">Gujarat, India</div><div class="exp-desc">Studied computer science fundamentals — networking, operating systems, databases — which provide the foundation for DevOps and cloud engineering work.</div></div></div>
+        </div>
+
+        <!-- 04 — Contact / Get In Touch -->
+        <div id="contact" class="section-head">
+            <span class="code-badge">// 04 —</span>
+            <h2>Let's Connect</h2>
+        </div>
+        <div class="contact-section">
+            <div class="contact-left">
+                <h3>Get In Touch</h3>
+                <p>Whether you have a DevOps challenge, a cloud migration, or just want to talk infrastructure — I'm always up for a conversation.</p>
+                <div class="contact-info-item"><div class="contact-icon"><i class="far fa-envelope"></i></div><div class="contact-detail">darjipratham99@gmail.com</div></div>
+                <div class="contact-info-item"><div class="contact-icon"><i class="fab fa-github"></i></div><div class="contact-detail"><a href="https://github.com/Pratham446" target="_blank" style="color:#aae0f0;">github.com/Pratham446</a></div></div>
+                <div class="contact-info-item"><div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div><div class="contact-detail">India · Open to Remote</div></div>
+            </div>
+            <div class="contact-right">
+                <h4>✉️ Send Me an Email</h4>
+                <p style="font-size:0.9rem; color:#bcd8e5;">Available for full-time roles & freelance</p>
+                <div class="availability-badge"><i class="fas fa-bolt"></i> Available for opportunities</div>
+                <a href="mailto:darjipratham99@gmail.com" class="btn-primary" style="background:#256573; width:100%; justify-content:center;">Let's build something</a>
+                <p style="margin-top: 1.4rem; font-size:0.8rem; color:#9ac2d0;">⏎  response within 24h</p>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div class="footer">
+            © 2025 Pratham Darji. Built with <i class="fas fa-heart"></i> and a lot of terminal commands. <span class="terminal-text">❯_</span>
+        </div>
+    </div>
+</body>
+</html>
