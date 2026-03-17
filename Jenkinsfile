@@ -24,59 +24,30 @@ pipeline {
         }
 
         // ─────────────────────────────────────────
-        // STAGE 2: Infrastructure Security Scan
-        // ─────────────────────────────────────────
-        stage('Infrastructure Security Scan') {
-            steps {
-                echo '============================================'
-                echo ' STAGE 2: Running Trivy Security Scan...'
-                echo '============================================'
-
-                script {
-                    def scanResult = sh(
-                        script: """
-                            trivy config ./terraform \
-                            --severity LOW,MEDIUM,HIGH,CRITICAL \
-                            --exit-code 0 \
-                            --format table \
-                            2>&1 | tee ${TRIVY_REPORT}
-                        """,
-                        returnStdout: true
-                    ).trim()
-
-                    echo scanResult
-
-                    def criticalCount = sh(
-                        script: "grep -c 'CRITICAL' ${TRIVY_REPORT} || true",
-                        returnStdout: true
-                    ).trim().toInteger()
-
-                    def highCount = sh(
-                        script: "grep -c 'HIGH' ${TRIVY_REPORT} || true",
-                        returnStdout: true
-                    ).trim().toInteger()
-
-                    echo '--------------------------------------------'
-                    echo "🔍 Scan Summary:"
-                    echo "   CRITICAL issues: ${criticalCount}"
-                    echo "   HIGH issues    : ${highCount}"
-                    echo '--------------------------------------------'
-
-                    if (criticalCount > 0) {
-                        error("❌ Pipeline failed: ${criticalCount} CRITICAL vulnerabilities found!")
-                    } else {
-                        echo '✅ No CRITICAL vulnerabilities found. Proceeding...'
-                    }
-                }
-            }
-            post {
-                always {
-                    echo '📄 Trivy scan report saved'
-                    archiveArtifacts artifacts: "${TRIVY_REPORT}", allowEmptyArchive: true
-                }
-            }
+   stage('Infrastructure Security Scan') {
+    steps {
+        script {
+            sh '''
+                # Run Trivy and capture output
+                docker run --rm -v $WORKSPACE:/workspace aquasec/trivy:latest \
+                    config --severity HIGH,CRITICAL --format table /workspace/terraform > trivy-report.txt
+                cat trivy-report.txt
+                # Check if any HIGH or CRITICAL issues found (exit code 1 if any)
+                if grep -qE "HIGH|CRITICAL" trivy-report.txt; then
+                    echo "❌ Security scan failed: HIGH/CRITICAL vulnerabilities detected!"
+                    exit 1
+                else
+                    echo "✅ No HIGH/CRITICAL vulnerabilities found."
+                fi
+            '''
         }
-
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
+        }
+    }
+}
         // ─────────────────────────────────────────
         // STAGE 3: Terraform Plan (WITH AWS CREDS)
         // ─────────────────────────────────────────
